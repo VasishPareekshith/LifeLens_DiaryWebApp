@@ -4,37 +4,33 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 const stream = require('stream');
 
-// Initialize the S3 client using AWS SDK v3
 const s3 = new S3Client({
-  region: '###',
+  region: process.env.AWS_REGION,
   credentials: {
-    accessKeyId: '###',
-    secretAccessKey: '###',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
 });
 
-// Multer configuration for uploading files to S3
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'lifelens-images',
+    bucket: 'lifelens-images',  //bucket name change accordingly
     key: (req, file, cb) => {
-      cb(null, `images/${Date.now()}_${file.originalname}`);  // Customize the file name in S3
+      cb(null, `images/${Date.now()}_${file.originalname}`);  
     },
   }),
   limits: { fileSize: 5 * 1024 * 1024 },  // 5 MB size limit
 });
 
-// Function to get an image from S3
 const getImageFromS3 = async (key) => {
   try {
     const command = new GetObjectCommand({
-      Bucket: 'lifelens-images',
+      Bucket: 'lifelens-images',  //bucket name change accordingly
       Key: key,
     });
     const response = await s3.send(command);
 
-    // Stream the data back
     const bodyStream = new stream.PassThrough();
     response.Body.pipe(bodyStream);
 
