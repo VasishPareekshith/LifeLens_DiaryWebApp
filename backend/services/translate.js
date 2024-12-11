@@ -1,20 +1,18 @@
 const { TranslateClient, TranslateTextCommand } = require("@aws-sdk/client-translate");
 
-// Configure AWS Translate client
 const client = new TranslateClient({
-  region: '###',
+  region: process.env.AWS_REGION,
   credentials: {
-    accessKeyId: '###',
-    secretAccessKey: '###',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
 });
 
-// Function to perform translation
 const translateToEnglish = async (text) => {
   const command = new TranslateTextCommand({
     Text: text,
-    SourceLanguageCode: "auto",  // Auto-detect the language
-    TargetLanguageCode: "en",    // Translate to English
+    SourceLanguageCode: "auto", 
+    TargetLanguageCode: "en",  
   });
 
   const response = await client.send(command);
