@@ -68,18 +68,6 @@ LifeLens is a feature-rich diary web application that empowers users to express 
 
 ---
 
-## 🏗️ Architecture
-
-### 📐 Architecture Overview
-1. **Frontend**: React app hosted on AWS Amplify.
-2. **Backend**: API Gateway routes requests to AWS services.
-3. **Data Storage**: DynamoDB for structured data and S3 for multimedia.
-
-### 📊 Architecture Diagram
-![Architecture Diagram](link-to-your-diagram.png) *(Replace with your diagram URL)*
-
----
-
 ## 🚀 Setup and Deployment
 
 ### 🧰 Prerequisites
