@@ -1,10 +1,10 @@
 const AWS = require('aws-sdk');
 AWS.config.update({
-  accessKeyId:'###',
-  secretAccessKey:'###',
-  region: '###'
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION
 });
-// Configure AWS Comprehend
+
 const comprehend = new AWS.Comprehend();
 
 const analyzeSentiment = async (text) => {
@@ -18,7 +18,7 @@ const analyzeSentiment = async (text) => {
     const sentimentData = data.ResultList[0];
     console.log(sentimentData);
     const sentiment = sentimentData.Sentiment;
-    return sentiment; // Returns the sentiment analysis results
+    return sentiment; 
   } catch (error) {
     throw new Error(`Comprehend Error: ${error.message}`);
   }
