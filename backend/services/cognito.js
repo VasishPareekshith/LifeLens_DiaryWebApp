@@ -2,16 +2,16 @@ const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 const AWS = require('aws-sdk');
 
 const poolData = {
-  UserPoolId: '###', // Replace with your User Pool ID
-  ClientId: '###',  // Replace with your App Client ID
+  UserPoolId: process.env.COGNITO_USER_POOL_ID, //User Pool ID
+  ClientId: process.env.COGNITO_CLIENT_ID,  //App Client ID
 };
 const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
 // Configure AWS SDK
 AWS.config.update({
-  accessKeyId:'###',
-  secretAccessKey:'###',
-  region: 'ap-southeast-2'
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION
 });
 
 const signUp = (email, password, name) => {
@@ -70,7 +70,7 @@ const signIn = (email, password) => {
       onSuccess: (result) => {
         // On successful sign-in, get temporary credentials
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-          IdentityPoolId: '###', // Replace with your Identity Pool ID
+          IdentityPoolId: process.env.COGNITO_IDENTITY_POOL_ID, //Identity Pool ID
           Logins: {
             [`cognito-idp.ap-southeast-2.amazonaws.com/${poolData.UserPoolId}`]: result.getIdToken().getJwtToken(),
           },
