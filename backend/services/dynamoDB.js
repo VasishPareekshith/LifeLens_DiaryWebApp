@@ -1,29 +1,27 @@
 const AWS = require('aws-sdk');
-
-// Configure AWS SDK to use DynamoDB in the correct region
 AWS.config.update({
-  accessKeyId:'###',
-  secretAccessKey:'###',
-  region: '###'
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION
 });
+
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-// Function to add a diary entry to DynamoDB
 const addDiaryEntry = async (entryId, email, entryDate, content, imageUrl = null, sentiment, randomReply) => {
   const params = {
     TableName: 'DiaryEntries',
     Item: {
       entryId,
-      email, // Use email as an attribute
+      email,
       entryDate,
       content,
-      imageUrl, // Store image URL if present
+      imageUrl,
       sentiment,
       randomReply
     },
   };
 
-  console.log('Adding item to DynamoDB:', params.Item); // Log the item being added
+  console.log('Adding item to DynamoDB:', params.Item); 
   return dynamoDb.put(params).promise();
 };
 
@@ -31,28 +29,26 @@ const getDiaryEntryByDateAndEmail = async (entryDate, email) => {
     const params = {
         TableName: 'DiaryEntries',
         IndexName: 'email-entryDate-index',  // Replace with your index name if different
-        KeyConditionExpression: 'email = :email AND entryDate = :date',  // Adjust based on schema
+        KeyConditionExpression: 'email = :email AND entryDate = :date',  
         ExpressionAttributeValues: {
             ':email': email,
             ':date': entryDate
         }
     };
     const result = await dynamoDb.query(params).promise();
-    return result.Items[0];  // Return the first item (assuming one entry per date)
+    return result.Items[0];  
 };
 
 const getSentimentByEmailAndDate = async (entryDate, email) => {
   const diaryEntry = await getDiaryEntryByDateAndEmail(entryDate, email);
   
   if (diaryEntry) {
-      // Assuming diaryEntry has both 'sentiment' and 'randomReply' fields
-      const { sentiment, randomReply } = diaryEntry; // Destructure sentiment and randomReply
+      const { sentiment, randomReply } = diaryEntry; 
       
-      return { sentiment, randomReply }; // Return both sentiment and random reply
+      return { sentiment, randomReply };
   } else {
-      return null; // No entry found, return null
+      return null; 
   }
 };
-
 
 module.exports = { addDiaryEntry, getDiaryEntryByDateAndEmail, getSentimentByEmailAndDate };
