@@ -5,6 +5,11 @@
 LifeLens is a feature-rich diary web application that empowers users to express emotions, analyze entries, and responds based on their mental well-being. Built on AWS services, the platform ensures robust security, seamless scalability, and an engaging journaling experience.
 
 ---
+# Demo
+
+https://youtu.be/Y8vT3WAF5pY
+
+---
 
 ## ✨ Features
 
