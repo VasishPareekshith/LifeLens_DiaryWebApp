@@ -8,6 +8,7 @@ LifeLens is a feature-rich diary web application that empowers users to express 
 # Demo
 
 https://youtu.be/Y8vT3WAF5pY
+[![demo video](https://img.youtube.com/vi/Y8vT3WAF5pY/0.jpg)](https://www.youtube.com/watch?v=Y8vT3WAF5pY)
 
 ---
 
